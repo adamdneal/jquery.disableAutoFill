@@ -192,7 +192,9 @@
         this.attr('autocomplete', 'off');
 
         if (this.find('[type=submit]').length > 0) {
-            this.find('[type=submit]').addClass('disableAutoFillSubmit').attr('type', 'button');
+            // Adam Neal 2020-01-14 Changing type didn't work on jQuery 1.8.3
+            //this.find('[type=submit]').addClass('disableAutoFillSubmit').attr('type', 'button');
+            this.find('[type=submit]').addClass('disableAutoFillSubmit').prop('type', 'button');
         }
 
         if (settings.submitButton != '') {
