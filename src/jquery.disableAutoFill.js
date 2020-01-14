@@ -136,6 +136,8 @@
      * @param {object} obj      jQuery DOM object (form)
      * @param {object} settings plugin settings.
      */
+
+    // Adam Neal 2020-01-14 must also change id for this to work on event reg page
     _helper.randomizeInput = function(obj, settings) {
         obj.find('input').each(function(i) {
             realFields[i] = $(this).attr('name');
@@ -144,6 +146,7 @@
             } else {
                 var randomName = Math.random().toString(36).replace(/[^a-z]+/g, '');
                 $(this).attr('name', randomName);
+                $(this).attr('id', randomName);
                 realFieldsMapper[realFields[i]] = randomName;
             }
         });
@@ -161,6 +164,7 @@
         if (settings.randomizeInputName) {
             obj.find('input').each(function(i) {
                 $(this).attr('name', realFields[i]);
+                $(this).attr('id', realFields[i]);
             });
         }
         if (settings.textToPassword) {
