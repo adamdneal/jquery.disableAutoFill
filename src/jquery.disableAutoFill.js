@@ -37,7 +37,7 @@
      */
     _helper.passwordListener = function(obj, settings) {
         var passObj = (settings.passwordField === '') ? '.disabledAutoFillPassword' : settings.passwordField;
- 
+
         if (obj.find('[type=password]').length > 0) {
             obj.find('[type=password]').attr('type', 'text').addClass('disabledAutoFillPassword');
         }
@@ -51,7 +51,7 @@
             if (!realPasswordMapper.hasOwnProperty(this.id)) {
                 realPasswordMapper[this.id] = [];
             }
- 
+
             var realPassword = realPasswordMapper[this.id];
 
             tmpPasswordMapper[this.id] = $(this).val();
@@ -84,7 +84,7 @@
                     realPassword.insert(currKeyupPos - 1, tmpPassword[currKeyupPos - 1]);
                 }
             }
-            
+
             $(this).val(tmpPassword.replace(/./g, settings.hidingChar));
 
             if (settings.debugMode) {
@@ -99,7 +99,7 @@
     /**
      * Helper function - formSubmitListener
      * - Replace submit button to normal button to make sure everything works fine.
-     * 
+     *
      * @param {object} obj      jQuery DOM object (form)
      * @param {object} settings plugin settings.
      */
@@ -120,7 +120,7 @@
                         setTimeout(function() {
                             $(btnObj).attr('type', 'button');
                         }, 1000);
-                        
+
                     } else {
                         obj.submit();
                     }
@@ -132,20 +132,21 @@
     /**
      * Helper function - ramdomizeInput
      * - Add random chars on "name" attribute to avid Browser remember what you submitted before.
-     * 
+     *
      * @param {object} obj      jQuery DOM object (form)
      * @param {object} settings plugin settings.
      */
 
-    // Adam Neal 2020-01-14 must also change id for this to work on event reg page
+    // Adam Neal 2020-01-16 don't change ASP.NET built-in inputs
     _helper.randomizeInput = function(obj, settings) {
-        obj.find('input').each(function(i) {
+        obj.find('input').not('input[type="hidden"]').not('#XXXXXXXX').each(function(i) {
             realFields[i] = $(this).attr('name');
             if(realFieldsMapper[realFields[i]]) {
                 $(this).attr('name', realFieldsMapper[realFields[i]]);
             } else {
                 var randomName = Math.random().toString(36).replace(/[^a-z]+/g, '');
                 $(this).attr('name', randomName);
+                // Adam Neal 2020-01-14 must also change id for this to work on event reg page
                 $(this).attr('id', randomName);
                 realFieldsMapper[realFields[i]] = randomName;
             }
@@ -173,9 +174,9 @@
 
         obj.find(settings.passwordField).each(function (i) {
             $(this).val(realPasswordMapper[this.id].join(''));
-        });      
-       
-       
+        });
+
+
     };
 
     /**
@@ -183,8 +184,8 @@
      */
     $.fn.disableAutoFill = function(options) {
         var settings = $.extend(
-            {}, 
-            $.fn.disableAutoFill.defaults, 
+            {},
+            $.fn.disableAutoFill.defaults,
             options
         );
 
@@ -206,7 +207,7 @@
         }
         _helper.passwordListener(this, settings);
         _helper.formSubmitListener(this, settings);
-        
+
     };
 
     $.fn.disableAutoFill.defaults = {
